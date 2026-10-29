@@ -12,10 +12,9 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Konfigurasi Backend Google Apps Script (Opsional jika ingin rekap masuk Cloud Spreadsheet) -->
-    <!-- Jika dikosongkan, aplikasi otomatis menggunakan LocalStorage browser & Export Excel -->
+    <!-- ⚠️ MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI (Full Online Cloud DB) -->
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylfl1kGEltNLr0J0-vPVrbjNnxsqPYt5PXHa8IcmgjB0QG2OytrkZHLd0OjstjS-4Y/exec"; // Kosongkan jika ingin mode mandiri / isi dengan URL Web App Apps Script Anda
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylfl1kGEltNLr0J0-vPVrbjNnxsqPYt5PXHa8IcmgjB0QG2OytrkZHLd0OjstjS-4Y/exec"; 
     </script>
 
     <!-- Toast Notification Container -->
@@ -30,7 +29,7 @@
                 <div class="bg-emerald-700 p-6 text-white text-center relative">
                     <span class="bg-emerald-600 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">SMK NU Sunan Ampel Poncokusumo</span>
                     <h1 class="text-2xl font-bold mt-3">Materi Pembelajaran Interaktif</h1>
-                    <p class="text-emerald-200 text-sm mt-1">Google Docs & Google Sheets</p>
+                    <p class="text-emerald-200 text-sm mt-1">Google Docs & Google Sheets (Full Online)</p>
                     <div class="mt-3 text-xs bg-emerald-800/80 inline-block px-3 py-1.5 rounded text-emerald-100 space-y-1">
                         <div>🕒 <b>X Tata Boga</b>: Aktif s.d. Pukul 10.00 WIB</div>
                         <div>🕒 <b>X Farmasi</b>: Aktif Pukul 11.00 - 14.00 WIB</div>
@@ -112,7 +111,7 @@
                                 <span id="badge-modul-2" class="text-xs px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-bold">Materi</span>
                             </button>
                             <button onclick="switchTab('modul-3')" id="btn-tab-modul-3" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between text-slate-600 hover:bg-slate-50">
-                                <span class="flex items-center gap-2"><i data-lucide="help-circle" class="w-4 h-4"></i> 3. Evaluasi Kuis</span>
+                                <span class="flex items-center gap-2"><i data-lucide="help-circle" class="w-4 h-4"></i> 3. Evaluasi Kuis (30 Soal)</span>
                                 <span id="badge-modul-3" class="text-xs px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-bold">Ujian</span>
                             </button>
                         </div>
@@ -152,11 +151,11 @@
                             <p class="text-sm text-slate-600 mb-3">Gunakan rumus `=SUM()` untuk menghitung total anggaran:</p>
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center bg-white p-2.5 rounded border text-sm">
-                                    <span id="label-item-1">Bahan Baku Utama (kg)</span>
+                                    <span id="label-item-1">Komponen Biaya 1</span>
                                     <input type="number" id="val-1" value="50000" oninput="calcSimulation()" class="border px-2 py-1 rounded w-32 text-right">
                                 </div>
                                 <div class="flex justify-between items-center bg-white p-2.5 rounded border text-sm">
-                                    <span id="label-item-2">Bahan Pendukung</span>
+                                    <span id="label-item-2">Komponen Biaya 2</span>
                                     <input type="number" id="val-2" value="25000" oninput="calcSimulation()" class="border px-2 py-1 rounded w-32 text-right">
                                 </div>
                                 <div class="flex justify-between items-center bg-emerald-50 p-3 rounded border border-emerald-200 text-sm font-bold text-emerald-900">
@@ -174,7 +173,7 @@
                     <!-- Modul 3: Kuis -->
                     <div id="content-modul-3" class="hidden bg-white rounded-xl shadow-sm p-6 sm:p-8 border border-slate-200 space-y-6">
                         <div class="border-b pb-4">
-                            <span class="text-xs font-bold text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded">Modul 3 dari 3</span>
+                            <span class="text-xs font-bold text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded">Modul 3 dari 3 (30 Soal Pilihan Ganda)</span>
                             <h2 class="text-xl font-bold text-slate-900 mt-2">Evaluasi Kuis (KKM: 75)</h2>
                         </div>
                         <div id="quiz-container" class="space-y-6"></div>
@@ -187,12 +186,12 @@
         <div id="view-admin" class="hidden flex-1 flex flex-col bg-slate-900 text-slate-100">
             <header class="bg-slate-800 border-b border-slate-700 h-16 flex items-center justify-between px-6">
                 <div class="flex items-center gap-3">
-                    <h2 class="font-bold text-white text-base">Dashboard Guru - Pemantauan Live Siswa</h2>
-                    <span class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded-full">Active Session</span>
+                    <h2 class="font-bold text-white text-base">Dashboard Guru - Pemantauan Cloud Live Siswa</h2>
+                    <span class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded-full">Cloud Active</span>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="loadAdminData()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded-lg flex items-center gap-1 font-medium">
-                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Muat Ulang
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Muat Ulang Cloud
                     </button>
                     <button onclick="exportToExcel()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-3 py-2 rounded-lg flex items-center gap-1 font-medium">
                         <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Ekspor ke Google Sheets (.xls)
@@ -203,14 +202,14 @@
             <main class="max-w-7xl mx-auto px-4 py-8 w-full space-y-6">
                 <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-xl">
                     <div class="p-4 border-b border-slate-700 font-bold text-sm flex justify-between items-center">
-                        <span>Rekapitulasi Siswa SMK NU Sunan Ampel Poncokusumo</span>
+                        <span>Rekapitulasi Siswa SMK NU Sunan Ampel Poncokusumo (Cloud Connected)</span>
                         <span id="admin-count-badge" class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">0 Siswa</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-slate-300">
                             <thead class="bg-slate-900 text-slate-400 uppercase text-xs">
                                 <tr>
-                                    <th class="p-4">Waktu</th>
+                                    <th class="p-4">Waktu Aktivitas</th>
                                     <th class="p-4">Nama Siswa</th>
                                     <th class="p-4">Kelas</th>
                                     <th class="p-4">Modul Aktif</th>
@@ -232,7 +231,7 @@
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
             <h3 class="font-bold text-slate-900 text-lg">Autentikasi Guru</h3>
             <form onsubmit="handleAdminLogin(event)" class="space-y-3">
-                <input type="password" id="input-admin-pass" required placeholder="Masukkan Sandi Admin" class="w-full px-3 py-2 border rounded-lg text-sm text-slate-800">
+                <input type="password" id="input-admin-pass" required placeholder="Sandi: smknu123" class="w-full px-3 py-2 border rounded-lg text-sm text-slate-800">
                 <button type="submit" class="w-full bg-slate-900 text-white py-2.5 rounded-lg text-sm font-semibold">Masuk Dashboard</button>
             </form>
             <button onclick="closeAdminLoginModal()" class="w-full text-xs text-slate-500 mt-2">Batal</button>
@@ -261,10 +260,41 @@
                 m1Subtitle: "Format penulisan resep baku kuliner digital.",
                 m1Context: "Dokumentasi resep presisi menjaga konsistensi rasa dan standar operasional dapur katering.",
                 m1Task: "Buat dokumen Google Docs baru yang berisi resep standar menu hidangan nusantara lengkap dengan porsi.",
-                quizQuestions: [
-                    { id: "q1", q: "1. Fitur di Google Docs untuk merevisi resep tanpa menghapus teks asli adalah?", opts: [{val:"A", text:"A. Page Setup"}, {val:"B", text:"B. Suggesting Mode"}, {val:"C", text:"C. Word Count"}], ans: "B" },
-                    { id: "q2", q: "2. Rumus Google Sheets yang digunakan untuk menghitung total keseluruhan harga bahan baku adalah?", opts: [{val:"A", text:"A. =AVERAGE()"}, {val:"B", text:"B. =COUNT()"}, {val:"C", text:"C. =SUM()"}], ans: "C" }
-                ]
+                docsQuestions: [
+                    { id: "tb_d1", q: "1. Fitur di Google Docs untuk merevisi resep tanpa menghapus teks asli dari rekan kerja adalah?", opts: [{val:"A", text:"A. Page Setup"}, {val:"B", text:"B. Suggesting Mode"}, {val:"C", text:"C. Word Count"}, {val:"D", text:"D. Find and Replace"}, {val:"E", text:"E. Spell Check"}], ans: "B" },
+                    { id: "tb_d2", q: "2. Ekstensi file standar saat dokumen Google Docs diunduh ke Microsoft Word adalah?", opts: [{val:"A", text:"A. .xlsx"}, {val:"B", text:"B. .docx"}, {val:"C", text:"C. .pptx"}, {val:"D", text:"D. .pdf"}, {val:"E", text:"E. .txt"}], ans: "B" },
+                    { id: "tb_d3", q: "3. Bagaimana cara membagikan dokumen resep di Google Docs agar dapat diedit bersama tim dapur?", opts: [{val:"A", text:"A. Klik File > Print"}, {val:"B", text:"B. Klik Share > Ubah akses menjadi Editor"}, {val:"C", text:"C. Ubah menjadi read-only"}, {val:"D", text:"D. Kirim lewat Bluetooth"}, {val:"E", text:"E. Download ke Flashdisk"}], ans: "B" },
+                    { id: "tb_d4", q: "4. Fungsi utama dari tabel dalam Google Docs pada penyusunan menu katering adalah?", opts: [{val:"A", text:"A. Menghias latar belakang halaman"}, {val:"B", text:"B. Mengatur tata letak jadwal dan komposisi bahan secara rapi"}, {val:"C", text:"C. Memutar video masak"}, {val:"D", text:"D. Mengubah warna font otomatis"}, {val:"E", text:"E. Menghitung kalori otomatis tanpa rumus"}], ans: "B" },
+                    { id: "tb_d5", q: "5. Jika kita ingin mencari kata 'Santan' di dalam dokumen resep Google Docs yang panjang, shortcut keyboard yang digunakan adalah?", opts: [{val:"A", text:"A. Ctrl + C"}, {val:"B", text:"B. Ctrl + V"}, {val:"C", text:"C. Ctrl + F"}, {val:"D", text:"D. Ctrl + P"}, {val:"E", text:"E. Ctrl + S"}], ans: "C" },
+                    { id: "tb_d6", q: "6. Keunggulan utama penyimpanan dokumen di Google Drive dibandingkan harddisk lokal adalah?", opts: [{val:"A", text:"A. Bisa terkena virus komputer"}, {val:"B", text:"B. Dapat diakses kapan saja dan di mana saja secara online"}, {val:"C", text:"C. Membutuhkan baterai laptop lebih besar"}, {val:"D", text:"D. Harus dicetak setiap hari"}, {val:"E", text:"E. Tidak memerlukan koneksi internet sama sekali"}], ans: "B" },
+                    { id: "tb_d7", q: "7. Apa fungsi dari fitur 'Version History' pada Google Docs?", opts: [{val:"A", text:"A. Menghapus dokumen selamanya"}, {val:"B", text:"B. Melihat dan memulihkan kembali riwayat revisi dokumen sebelumnya"}, {val:"C", text:"C. Mengganti bahasa dokumen ke bahasa asing"}, {val:"D", text:"D. Menghitung jumlah halaman tersembunyi"}, {val:"E", text:"E. Mencetak dokumen dalam format warna"}], ans: "B" },
+                    { id: "tb_d8", q: "8. Menu apa di Google Docs yang digunakan untuk menyisipkan gambar foto hasil olahan makanan?", opts: [{val:"A", text:"A. File > Insert"}, {val:"B", text:"B. Insert > Image"}, {val:"C", text:"C. Format > Line spacing"}, {val:"D", text:"D. Tools > Spelling"}, {val:"E", text:"E. Edit > Select all"}], ans: "B" },
+                    { id: "tb_d9", q: "9. Fitur untuk memeriksa kesalahan ejaan tata bahasa Indonesia pada dokumen resep dinamakan?", opts: [{val:"A", text:"A. Spelling and Grammar"}, {val:"B", text:"B. Word Art"}, {val:"C", text:"C. Page Border"}, {val:"D", text:"D. Bulleted List"}, {val:"E", text:"E. Watermark"}], ans: "A" },
+                    { id: "tb_d10", q: "10. Bagaimana cara membuat teks judul resep menjadi rata tengah di Google Docs?", opts: [{val:"A", text:"A. Ctrl + L"}, {val:"B", text:"B. Ctrl + R"}, {val:"C", text:"C. Ctrl + E"}, {val:"D", text:"D. Ctrl + J"}, {val:"E", text:"E. Ctrl + B"}], ans: "C" },
+                    { id: "tb_d11", q: "11. Format file apa yang paling aman dibagikan ke klien agar tata letak resep tidak bergeser saat dicetak?", opts: [{val:"A", text:"A. .docx"}, {val:"B", text:"B. .pdf"}, {val:"C", text:"C. .txt"}, {val:"D", text:"D. .odt"}, {val:"E", text:"E. .rtf"}], ans: "B" },
+                    { id: "tb_d12", q: "12. Shortcut keyboard untuk menyalin teks resep (Copy) di Google Docs adalah?", opts: [{val:"A", text:"A. Ctrl + C"}, {val:"B", text:"B. Ctrl + V"}, {val:"C", text:"C. Ctrl + X"}, {val:"D", text:"D. Ctrl + Z"}, {val:"E", text:"E. Ctrl + A"}], ans: "A" },
+                    { id: "tb_d13", q: "13. Fasilitas penyimpanan awan (cloud storage) yang terintegrasi langsung dengan Google Docs adalah?", opts: [{val:"A", text:"A. OneDrive"}, {val:"B", text:"B. Dropbox"}, {val:"C", text:"C. Google Drive"}, {val:"D", text:"D. iCloud"}, {val:"E", text:"E. Mega"}], ans: "C" },
+                    { id: "tb_d14", q: "14. Tombol pintas (shortcut) untuk menebalkan (bold) nama bahan dalam resep adalah?", opts: [{val:"A", text:"A. Ctrl + I"}, {val:"B", text:"B. Ctrl + U"}, {val:"C", text:"C. Ctrl + B"}, {val:"D", text:"D. Ctrl + K"}, {val:"E", text:"E. Ctrl + P"}], ans: "C" },
+                    { id: "tb_d15", q: "15. Apa manfaat utama menggunakan fitur 'Comment' pada Google Docs saat berdiskusi resep dengan guru?", opts: [{val:"A", text:"A. Mengubah warna latar belakang aplikasi"}, {val:"B", text:"B. Memberikan masukan koreksi teks secara spesifik tanpa mengubah isi utama"}, {val:"C", text:"C. Menghapus dokumen secara permanen"}, {val:"D", text:"D. Mengunduh video memasak"}, {val:"E", text:"E. Mempercepat koneksi internet"}], ans: "B" }
+                ],
+                sheetsQuestions: [
+                    { id: "tb_s1", q: "1. Rumus Google Sheets yang digunakan untuk menghitung total keseluruhan harga bahan baku resep adalah?", opts: [{val:"A", text:"A. =AVERAGE()"}, {val:"B", text:"B. =COUNT()"}, {val:"C", text:"C. =SUM()"}, {val:"D", text:"D. =MAX()"}, {val:"E", text:"E. =MIN()"}], ans: "C" },
+                    { id: "tb_s2", q: "2. Rumus Google Sheets untuk mencari nilai rata-rata harga bahan baku dari beberapa supplier adalah?", opts: [{val:"A", text:"A. =AVERAGE()"}, {val:"B", text:"B. =SUM()"}, {val:"C", text:"C. =PRODUCT()"}, {val:"D", text:"D. =MEDIAN()"}, {val:"E", text:"E. =DIVIDE()"}], ans: "A" },
+                    { id: "tb_s3", q: "3. Dalam pembuatan lembar kerja Harga Pokok Penjualan (HPP) kue, simbol operator yang digunakan untuk perkalian adalah?", opts: [{val:"A", text:"A. x"}, {val:"B", text:"B. *"}, {val:"C", text:"C. ^"}, {val:"D", text:"D. /"}, {val:"E", text:"E. +"}], ans: "B" },
+                    { id: "tb_s4", q: "4. Fungsi logika di Google Sheets untuk menentukan status laba atau rugi usaha katering berdasarkan target adalah?", opts: [{val:"A", text:"A. IF"}, {val:"B", text:"B. SUM"}, {val:"C", text:"C. VLOOKUP"}, {val:"D", text:"D. COUNT"}, {val:"E", text:"E. AVERAGE"}], ans: "A" },
+                    { id: "tb_s5", q: "5. Simbol apa yang harus diketikkan pertama kali di dalam sel sebelum memasukkan rumus atau fungsi di Google Sheets?", opts: [{val:"A", text:"A. #"}, {val:"B", text:"B. $"}, {val:"C", text:"C. ="}, {val:"D", text:"D. @"}, {val:"E", text:"E. !"}], ans: "C" },
+                    { id: "tb_s6", q: "6. Fungsi Google Sheets untuk menghitung jumlah sel yang berisi data teks atau angka resep adalah?", opts: [{val:"A", text:"A. COUNTA"}, {val:"B", text:"B. SUM"}, {val:"C", text:"C. AVERAGE"}, {val:"D", text:"D. MAX"}, {val:"E", text:"E. MIN"}], ans: "A" },
+                    { id: "tb_s7", q: "7. Bagaimana cara mengunci referensi sel (Absolute Reference) dalam rumus HPP agar tidak berubah saat disalin ke bawah?", opts: [{val:"A", text:"A. Menambahkan tanda dolar ($) seperti $A$1"}, {val:"B", text:"B. Menambahkan tanda pagar (#) seperti #A#1"}, {val:"C", text:"C. Menebalkan huruf sel"}, {val:"D", text:"D. Mengubah warna sel"}, {val:"E", text:"E. Mengunci komputer"}], ans: "A" },
+                    { id: "tb_s8", q: "8. Fitur Google Sheets untuk merapikan tabel rincian bahan secara otomatis berdasarkan abjad dinamakan?", opts: [{val:"A", text:"A. Sort Range / Filter"}, {val:"B", text:"B. Merge Cells"}, {val:"C", text:"C. Conditional Formatting"}, {val:"D", text:"D. Data Validation"}, {val:"E", text:"E. Protect Sheet"}], ans: "A" },
+                    { id: "tb_s9", q: "9. Fungsi Google Sheets untuk mencari nilai harga tertinggi dari daftar bahan baku katering adalah?", opts: [{val:"A", text:"A. MIN()"}, {val:"B", text:"B. MAX()"}, {val:"C", text:"C. SUM()"}, {val:"D", text:"D. AVERAGE()"}, {val:"E", text:"E. COUNT()"}], ans: "B" },
+                    { id: "tb_s10", q: "10. Jenis grafik (chart) yang paling tepat untuk membandingkan persentase komponen biaya bahan baku dalam HPP adalah?", opts: [{val:"A", text:"A. Line Chart"}, {val:"B", text:"B. Pie Chart (Grafik Lingkaran)"}, {val:"C", text:"C. Scatter Plot"}, {val:"D", text:"D. Candlestick"}, {val:"E", text:"E. Histogram"}], ans: "B" },
+                    { id: "tb_s11", q: "11. Fungsi Google Sheets untuk menghitung jumlah total baris sel yang memenuhi kriteria tertentu (misal: bahan di atas 10kg) adalah?", opts: [{val:"A", text:"A. COUNTIF"}, {val:"B", text:"B. SUM"}, {val:"C", text:"C. AVERAGE"}, {val:"D", text:"D. VLOOKUP"}, {val:"E", text:"E. IF"}], ans: "A" },
+                    { id: "tb_s12", q: "12. Apa fungsi dari fitur 'Conditional Formatting' pada tabel keuangan katering?", opts: [{val:"A", text:"A. Mewarnai sel secara otomatis jika memenuhi kondisi tertentu (misal rugi/merah)"}, {val:"B", text:"B. Menghapus data sel secara permanen"}, {val:"C", text:"C. Mengubah format file menjadi PDF"}, {val:"D", text:"D. Mencetak tabel ke printer"}, {val:"E", text:"E. Membuat password lembar kerja"}], ans: "A" },
+                    { id: "tb_s13", q: "13. Simbol operator matematika untuk pembagian di Google Sheets adalah?", opts: [{val:"A", text:"A. *"}, {val:"B", text:"B. /"}, {val:"C", text:"C. -"}, {val:"D", text:"D. +"}, {val:"E", text:"E. ^"}], ans: "B" },
+                    { id: "tb_s14", q: "14. Bagaimana cara menggabungkan beberapa sel tabel menjadi satu sel di bagian judul tabel rekap?", opts: [{val:"A", text:"A. Merge cells"}, {val:"B", text:"B. Split cells"}, {val:"C", text:"C. Insert row"}, {val:"D", text:"D. Delete column"}, {val:"E", text:"E. Sort sheet"}], ans: "A" },
+                    { id: "tb_s15", q: "15. Apa fungsi utama fungsi VLOOKUP dalam pengelolaan inventaris bahan baku kuliner?", opts: [{val:"A", text:"A. Mencari data harga bahan secara vertikal berdasarkan kode barang"}, {val:"B", text:"B. Menghitung total kalori masakan"}, {val:"C", text:"C. Mengubah teks menjadi huruf kapital"}, {val:"D", text:"D. Membuat diagram batang otomatis"}, {val:"E", text:"E. Mengirim email ke supplier"}], ans: "A" }
+                ],
+                quizQuestions: []
             },
             "X Farmasi": {
                 avatar: "FR",
@@ -272,12 +302,48 @@
                 m1Subtitle: "Format penulisan resep apotek dan sediaan obat.",
                 m1Context: "Dokumentasi resep racikan di apotek harus bebas dari kesalahan penulisan dosis.",
                 m1Task: "Buat Google Docs yang merinci Standar Operasional Prosedur (SOP) peracikan kapsul obat.",
-                quizQuestions: [
-                    { id: "q1", q: "1. Keunggulan utama kolaborasi Google Docs dalam tim farmasi adalah?", opts: [{val:"A", text:"A. Bermain game online bersama"}, {val:"B", text:"B. Menyusun SOP resep racikan & audit bersama secara real-time"}, {val:"C", text:"C. Mencetak label kemasan obat"}], ans: "B" },
-                    { id: "q2", q: "2. Rumus Google Sheets untuk mencari rata-rata harga obat adalah?", opts: [{val:"A", text:"A. =SUM()"}, {val:"B", text:"B. =AVERAGE()"}, {val:"C", text:"C. =MAX()"}], ans: "B" }
-                ]
+                docsQuestions: [
+                    { id: "fr_d1", q: "1. Keunggulan utama kolaborasi Google Docs dalam tim farmasi untuk audit SOP adalah?", opts: [{val:"A", text:"A. Bermain game online bersama"}, {val:"B", text:"B. Menyusun SOP resep racikan & audit bersama secara real-time"}, {val:"C", text:"C. Mencetak label kemasan obat instan"}, {val:"D", text:"D. Menghitung denyut nadi pasien"}, {val:"E", text:"E. Mengirim resep via pos"}], ans: "B" },
+                    { id: "fr_d2", q: "2. Format unduhan standar Google Docs jika ingin dibuka di Microsoft Word oleh apoteker senior adalah?", opts: [{val:"A", text:"A. .xlsx"}, {val:"B", text:"B. .docx"}, {val:"C", text:"C. .pptx"}, {val:"D", text:"D. .csv"}, {val:"E", text:"E. .html"}], ans: "B" },
+                    { id: "fr_d3", q: "3. Bagaimana cara mengatur agar staf farmasi lain hanya bisa membaca SOP tanpa mengubah isinya?", opts: [{val:"A", text:"A. Ubah akses share menjadi Viewer"}, {val:"B", text:"B. Ubah akses share menjadi Editor"}, {val:"C", text:"C. Hapus file dokumen"}, {val:"D", text:"D. Ubah font menjadi warna merah"}, {val:"E", text:"E. Kunci layar laptop"}], ans: "A" },
+                    { id: "fr_d4", q: "4. Mengapa penggunaan tabel di Google Docs sangat penting dalam penulisan aturan pakai sediaan obat?", opts: [{val:"A", text:"A. Agar dokumen berwarna-warni"}, {val:"B", text:"B. Mempermudah pembacaan dosis dan frekuensi secara terstruktur"}, {val:"C", text:"C. Menghubungkan langsung ke pabrik obat"}, {val:"D", text:"D. Mengubah teks menjadi suara"}, {val:"E", text:"E. Menghapus data obat kedaluwarsa otomatis"}], ans: "B" },
+                    { id: "fr_d5", q: "5. Shortcut keyboard untuk melakukan pencarian nama obat tertentu dalam dokumen Google Docs adalah?", opts: [{val:"A", text:"A. Ctrl + C"}, {val:"B", text:"B. Ctrl + V"}, {val:"C", text:"C. Ctrl + F"}, {val:"D", text:"D. Ctrl + P"}, {val:"E", text:"E. Ctrl + Z"}], ans: "C" },
+                    { id: "fr_d6", q: "6. Apa keuntungan utama penyimpanan resep digital di Google Drive?", opts: [{val:"A", text:"A. Tersimpan aman di cloud dan mudah diakses saat audit apotek"}, {val:"B", text:"B. Mudah rusak terkena tumpahan cairan obat"}, {val:"C", text:"C. Memerlukan rak arsip fisik yang besar"}, {val:"D", text:"D. Tidak bisa dicadangkan"}, {val:"E", text:"E. Hanya bisa dibuka di satu komputer apotek"}], ans: "A" },
+                    { id: "fr_d7", q: "7. Apa fungsi dari menu 'Comment' pada Google Docs saat melakukan pengecekan resep bersama kepala instalasi farmasi?", opts: [{val:"A", text:"A. Menghapus seluruh paragraf resep"}, {val:"B", text:"B. Memberikan catatan koreksi atau saran perbaikan tanpa merusak teks asli"}, {val:"C", text:"C. Mengirim email otomatis ke pasien"}, {val:"D", text:"D. Mencetak label resep"}, {val:"E", text:"E. Mengubah warna latar belakang dokumen"}], ans: "B" },
+                    { id: "fr_d8", q: "8. Menu di Google Docs untuk menambahkan lambang atau simbol khusus resep (seperti R/) adalah?", opts: [{val:"A", text:"A. Insert > Special characters"}, {val:"B", text:"B. File > Page setup"}, {val:"C", text:"C. Format > Clear formatting"}, {val:"D", text:"D. Tools > Dictionary"}, {val:"E", text:"E. Edit > Find"}], ans: "A" },
+                    { id: "fr_d9", q: "9. Fitur Google Docs untuk melihat riwayat perubahan revisi penulisan resep oleh asisten apoteker adalah?", opts: [{val:"A", text:"A. Version History"}, {val:"B", text:"B. Spelling Check"}, {val:"C", text:"C. Word Count"}, {val:"D", text:"D. Paragraph Styles"}, {val:"E", text:"E. Page Number"}], ans: "A" },
+                    { id: "fr_d10", q: "10. Perintah untuk mencetak dokumen SOP resep racikan ke printer apotek adalah?", opts: [{val:"A", text:"A. Ctrl + P"}, {val:"B", text:"B. Ctrl + S"}, {val:"C", text:"C. Ctrl + A"}, {val:"D", text:"D. Ctrl + N"}, {val:"E", text:"E. Ctrl + O"}], ans: "A" },
+                    { id: "fr_d11", q: "11. Bagaimana cara membuat daftar isi otomatis untuk buku pedoman farmasi di Google Docs?", opts: [{val:"A", text:"A. Insert > Table of contents"}, {val:"B", text:"B. Insert > Drawing"}, {val:"C", text:"C. File > Download"}, {val:"D", text:"D. Edit > Paste"}, {val:"E", text:"E. Format > Align"}], ans: "A" },
+                    { id: "fr_d12", q: "12. Tombol pintas untuk membatalkan kesalahan ketik (Undo) saat menulis dosis obat adalah?", opts: [{val:"A", text:"A. Ctrl + Z"}, {val:"B", text:"B. Ctrl + Y"}, {val:"C", text:"C. Ctrl + X"}, {val:"D", text:"D. Ctrl + V"}, {val:"E", text:"E. Ctrl + F"}], ans: "A" },
+                    { id: "fr_d13", q: "13. Fungsi dari 'Word Count' pada Google Docs bagi penulis naskah kefarmasian adalah?", opts: [{val:"A", text:"A. Menghitung jumlah kata dan karakter dalam laporan penelitian obat"}, {val:"B", text:"B. Menghitung berat badan pasien"}, {val:"C", text:"C. Menghitung dosis tetes mata"}, {val:"D", text:"D. Menghitung jumlah tablet dalam botol"}, {val:"E", text:"E. Menghitung harga jual obat"}], ans: "A" },
+                    { id: "fr_d14", q: "14. Format penyimpanan dokumen Google Docs agar aman dari perubahan format saat dikirim ke BPOM adalah?", opts: [{val:"A", text:"A. PDF (.pdf)"}, {val:"B", text:"B. Word (.docx)"}, {val:"C", text:"C. Plain Text (.txt)"}, {val:"D", text:"D. Web Page (.html)"}, {val:"E", text:"E. Rich Text (.rtf)"}], ans: "A" },
+                    { id: "fr_d15", q: "15. Cara mengaktifkan mode kolaborasi aman agar rekan sejawat apoteker dapat memberikan usulan perbaikan resep adalah?", opts: [{val:"A", text:"A. Mengaktifkan mode Suggesting"}, {val:"B", text:"B. Mematikan komputer"}, {val:"C", text:"C. Mengunci file dengan password BIOS"}, {val:"D", text:"D. Mencetak dokumen fisik"}, {val:"E", text:"E. Mengubah ekstensi file"}], ans: "A" }
+                ],
+                sheetsQuestions: [
+                    { id: "fr_s1", q: "1. Rumus Google Sheets untuk mencari rata-rata harga persediaan obat di apotek adalah?", opts: [{val:"A", text:"A. =SUM()"}, {val:"B", text:"B. =AVERAGE()"}, {val:"C", text:"C. =MAX()"}, {val:"D", text:"D. =MIN()"}, {val:"E", text:"E. =COUNT()"}], ans: "B" },
+                    { id: "fr_s2", q: "2. Rumus Google Sheets yang digunakan untuk menjumlahkan total stok fisik seluruh jenis obat di apotek adalah?", opts: [{val:"A", text:"A. =SUM()"}, {val:"B", text:"B. =AVERAGE()"}, {val:"C", text:"C. =COUNT()"}, {val:"D", text:"D. =MAX()"}, {val:"E", text:"E. =STDEV()"}], ans: "A" },
+                    { id: "fr_s3", q: "3. Dalam tabel rekapitulasi harga obat di Google Sheets, simbol untuk pembagian adalah?", opts: [{val:"A", text:"A. *"}, {val:"B", text:"B. /"}, {val:"C", text:"C. -"}, {val:"D", text:"D. +"}, {val:"E", text:"E. %"}], ans: "B" },
+                    { id: "fr_s4", q: "4. Fungsi logika IF di Google Sheets sangat berguna di apotek untuk menentukan status stok obat, yaitu?", opts: [{val:"A", text:"A. Menentukan apakah stok 'Aman' atau 'Harus Restock' berdasarkan batas minimum"}, {val:"B", text:"B. Menghitung warna kemasan obat"}, {val:"C", text:"C. Mengukur suhu ruangan penyimpanan vaksin"}, {val:"D", text:"D. Menulis nama dokter resep"}, {val:"E", text:"E. Mencetak label etiket obat"}], ans: "A" },
+                    { id: "fr_s5", q: "5. Karakter awal wajib yang harus diketikkan sebelum memasukkan rumus perhitungan di Google Sheets adalah?", opts: [{val:"A", text:"A. #"}, {val:"B", text:"B. $"}, {val:"C", text:"C. ="}, {val:"D", text:"D. @"}, {val:"E", text:"E. !"}], ans: "C" },
+                    { id: "fr_s6", q: "6. Fungsi Google Sheets untuk menghitung jumlah total jenis obat terdaftar di tabel rekap adalah?", opts: [{val:"A", text:"A. COUNTA"}, {val:"B", text:"B. SUM"}, {val:"C", text:"C. AVERAGE"}, {val:"D", text:"D. MAX"}, {val:"E", text:"E. MIN"}], ans: "A" },
+                    { id: "fr_s7", q: "7. Cara menjaga agar sel referensi harga dasar obat tidak bergeser saat rumus disalin ke bawah adalah dengan menggunakan?", opts: [{val:"A", text:"A. Absolute Reference ($A$1)"}, {val:"B", text:"B. Relative Reference (A1)"}, {val:"C", text:"C. Font Bold"}, {val:"D", text:"D. Text Wrapping"}, {val:"E", text:"E. Data Validation"}], ans: "A" },
+                    { id: "fr_s8", q: "8. Fitur di Google Sheets untuk memfilter jenis obat berdasarkan golongan (narkotika, psikotropika, bebas) dinamakan?", opts: [{val:"A", text:"A. Filter / Sort"}, {val:"B", text:"B. Merge"}, {val:"C", text:"C. Conditional Formatting"}, {val:"D", text:"D. Chart"}, {val:"E", text:"E. Protect Range"}], ans: "A" },
+                    { id: "fr_s9", q: "9. Fungsi Google Sheets untuk mencari harga obat termahal di dalam daftar inventaris adalah?", opts: [{val:"A", text:"A. MIN()"}, {val:"B", text:"B. MAX()"}, {val:"C", text:"C. SUM()"}, {val:"D", text:"D. AVERAGE()"}, {val:"E", text:"E. COUNT()"}], ans: "B" },
+                    { id: "fr_s10", q: "10. Jenis grafik yang paling tepat untuk melihat tren kenaikan/penurunan penjualan obat per bulan di apotek adalah?", opts: [{val:"A", text:"A. Line Chart (Grafik Garis)"}, {val:"B", text:"B. Pie Chart"}, {val:"C", text:"C. Donut Chart"}, {val:"D", text:"D. Scatter Plot"}, {val:"E", text:"E. Org Chart"}], ans: "A" },
+                    { id: "fr_s11", q: "11. Rumus Google Sheets untuk menghitung jumlah obat yang stoknya di bawah 10 kotak adalah?", opts: [{val:"A", text:"A. COUNTIF"}, {val:"B", text:"B. SUM"}, {val:"C", text:"C. AVERAGE"}, {val:"D", text:"D. VLOOKUP"}, {val:"E", text:"E. IF"}], ans: "A" },
+                    { id: "fr_s12", q: "12. Fungsi Conditional Formatting pada tabel stok obat apotek biasanya digunakan untuk?", opts: [{val:"A", text:"A. Memberikan warna merah otomatis pada sel obat yang stoknya hampir habis"}, {val:"B", text:"B. Menghapus data obat kedaluwarsa"}, {val:"C", text:"C. Mengubah nama obat menjadi huruf kecil"}, {val:"D", text:"D. Mengirim laporan ke PBF"}, {val:"E", text:"E. Mengunci lembar kerja"}], ans: "A" },
+                    { id: "fr_s13", q: "13. Simbol operator matematika untuk perkalian di Google Sheets adalah?", opts: [{val:"A", text:"A. *"}, {val:"B", text:"B. /"}, {val:"C", text:"C. +"}, {val:"D", text:"D. -"}, {val:"E", text:"E. ^"}], ans: "A" },
+                    { id: "fr_s14", q: "14. Menu untuk menggabungkan beberapa sel tabel menjadi satu sel judul laporan inventaris dinamakan?", opts: [{val:"A", text:"A. Merge cells"}, {val:"B", text:"B. Split cells"}, {val:"C", text:"C. Delete row"}, {val:"D", text:"D. Insert column"}, {val:"E", text:"E. Sort range"}], ans: "A" },
+                    { id: "fr_s15", q: "15. Fungsi VLOOKUP pada lembar kerja inventaris apotek digunakan untuk?", opts: [{val:"A", text:"A. Mencari nama dan harga obat secara otomatis berdasarkan barcode obat"}, {val:"B", text:"B. Menghitung dosis obat racikan puyer"}, {val:"C", text:"C. Mengubah format tanggal kedaluwarsa"}, {val:"D", text:"D. Mencetak etiket obat"}, {val:"E", text:"E. Menghapus baris kosong"}], ans: "A" }
+                ],
+                quizQuestions: []
             }
         };
+
+        // Kombinasikan 15 soal Docs + 15 soal Sheets menjadi tepat 30 soal kuis per jurusan
+        Object.keys(contentConfig).forEach(k => {
+            contentConfig[k].quizQuestions = [...contentConfig[k].docsQuestions, ...contentConfig[k].sheetsQuestions];
+        });
 
         window.onload = function() {
             lucide.createIcons();
@@ -285,7 +351,7 @@
                 if (currentUser.role === 'admin') {
                     showView('view-admin');
                     loadAdminData();
-                    adminInterval = setInterval(loadAdminData, 3000);
+                    adminInterval = setInterval(loadAdminData, 4000);
                 } else {
                     showView('view-student');
                     initStudent();
@@ -308,11 +374,10 @@
             setTimeout(() => t.remove(), 3000);
         }
 
+        // Fungsi sinkronisasi cloud real-time ke Google Apps Script Backend
         function syncData(extra = {}) {
             if (!currentUser || currentUser.role === 'admin') return;
-            let records = JSON.parse(localStorage.getItem('mpi_records') || '{}');
-            const key = currentUser.nama + "_" + currentUser.kelas;
-            records[key] = {
+            const payload = {
                 timestamp: new Date().toLocaleTimeString(),
                 nama: currentUser.nama,
                 kelas: currentUser.kelas,
@@ -320,16 +385,15 @@
                 score: currentUser.score !== undefined ? currentUser.score : '-',
                 ...extra
             };
-            localStorage.setItem('mpi_records', JSON.stringify(records));
+            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
 
-            // Jika SCRIPT_URL Google Apps Script diisi, kirim juga secara cloud
-            if (SCRIPT_URL && SCRIPT_URL.trim() !== "") {
+            if (SCRIPT_URL && SCRIPT_URL.trim() !== "" && SCRIPT_URL !== "YOUR_WEB_APP_URL") {
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(records[key])
-                }).catch(e => console.log(e));
+                    body: JSON.stringify(payload)
+                }).catch(e => console.log("Sync error:", e));
             }
         }
 
@@ -338,7 +402,7 @@
             const nama = document.getElementById('input-nama').value.trim();
             const kelas = document.getElementById('input-kelas').value;
 
-            // Validasi Jam
+            // Validasi Jam Akses Sesuai Permintaan
             const now = new Date();
             const mins = now.getHours() * 60 + now.getMinutes();
             if (kelas === 'X Tata Boga' && mins > 600) {
@@ -376,15 +440,16 @@
             document.getElementById('m1-context-desc').innerText = cfg.m1Context;
             document.getElementById('m1-task-desc').innerText = cfg.m1Task;
 
-            // Render Quiz
+            // Render 30 Soal Kuis Lengkap 5 Opsi
             const qContainer = document.getElementById('quiz-container');
-            qContainer.innerHTML = '';
-            cfg.quizQuestions.forEach(qq => {
+            qContainer.innerHTML = '<p class="text-xs text-slate-500 mb-4">Kerjakan seluruh 30 soal pilihan ganda di bawah ini (15 Soal Google Docs & 15 Soal Google Sheets). Pastikan nilai KKM minimal adalah 75.</p>';
+            
+            cfg.quizQuestions.forEach((qq, idx) => {
                 let opts = '';
-                qq.opts.forEach(o => opts += `<label class="block p-2.5 bg-slate-50 hover:bg-slate-100 rounded border cursor-pointer"><input type="radio" name="${qq.id}" value="${o.val}" class="mr-2"> ${o.text}</label>`);
-                qContainer.innerHTML += `<div class="space-y-2"><p class="font-medium text-sm text-slate-800">${qq.q}</p>${opts}</div>`;
+                qq.opts.forEach(o => opts += `<label class="block p-2.5 bg-slate-50 hover:bg-slate-100 rounded border cursor-pointer text-sm mb-1.5"><input type="radio" name="${qq.id}" value="${o.val}" class="mr-2"> ${o.text}</label>`);
+                qContainer.innerHTML += `<div class="space-y-2 border-b pb-4 mb-4"><p class="font-semibold text-sm text-slate-900">${qq.q}</p><div class="space-y-1">${opts}</div></div>`;
             });
-            qContainer.innerHTML += `<button onclick="submitQuiz()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-semibold shadow transition mt-4">Kirim Jawaban Kuis</button>`;
+            qContainer.innerHTML += `<button onclick="submitQuiz()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-semibold shadow transition mt-6">Kirim Jawaban 30 Soal Kuis</button>`;
         }
 
         window.switchTab = function(tab) {
@@ -401,13 +466,12 @@
             });
 
             currentUser.activeTab = tab;
-            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
             syncData();
         };
 
         window.completeModul = function(modul) {
             syncData();
-            showToast('Progres berhasil disimpan!');
+            showToast('Progres berhasil disimpan ke cloud!');
             if (modul === 'modul-1') switchTab('modul-2');
             else if (modul === 'modul-2') switchTab('modul-3');
         };
@@ -420,20 +484,22 @@
 
         window.submitQuiz = function() {
             const cfg = contentConfig[currentUser.kelas];
-            let score = 0;
+            let correctCount = 0;
             cfg.quizQuestions.forEach(qq => {
                 const sel = document.querySelector(`input[name="${qq.id}"]:checked`);
-                if (sel && sel.value === qq.ans) score += 50;
+                if (sel && sel.value === qq.ans) correctCount++;
             });
             
+            // Konversi 30 soal ke rentang skala 0-100
+            let score = Math.round((correctCount / 30) * 100);
+            
             currentUser.score = score;
-            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
             syncData();
 
             if (score >= 75) {
-                alert(`Selamat! Nilai Anda: ${score}. Anda TUNTAS KKM!`);
+                alert(`Selamat! Jawaban benar ${correctCount}/30. Nilai Anda: ${score}. Anda TUNTAS KKM! Hasil tersimpan otomatis.`);
             } else {
-                alert(`Nilai Anda: ${score} (< 75). Berdasarkan aturan KKM, Anda wajib mengulang dari Modul 1.`);
+                alert(`Jawaban benar ${correctCount}/30. Nilai Anda: ${score} (< 75). Sesuai aturan KKM, Anda wajib mengulang dari Modul 1.`);
                 switchTab('modul-1');
             }
         };
@@ -449,7 +515,7 @@
                 localStorage.setItem('mpi_user', JSON.stringify(currentUser));
                 showView('view-admin');
                 loadAdminData();
-                adminInterval = setInterval(loadAdminData, 3000);
+                adminInterval = setInterval(loadAdminData, 4000);
             } else {
                 alert('Sandi admin salah!');
             }
@@ -461,21 +527,62 @@
         };
 
         window.loadAdminData = function() {
-            const records = JSON.parse(localStorage.getItem('mpi_records') || '{}');
-            const tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = '';
-            
-            const keys = Object.keys(records);
-            if (keys.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Belum ada data siswa masuk.</td></tr>`;
-                document.getElementById('admin-count-badge').innerText = `0 Siswa`;
+            if (!SCRIPT_URL || SCRIPT_URL === "YOUR_WEB_APP_URL") {
+                // Fallback jika belum diisi SCRIPT_URL
+                renderTableFromLocal();
                 return;
             }
 
+            fetch(SCRIPT_URL)
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.getElementById('admin-table-body');
+                    tbody.innerHTML = '';
+                    if (!data || data.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Belum ada data siswa masuk dari cloud.</td></tr>`;
+                        document.getElementById('admin-count-badge').innerText = `0 Siswa`;
+                        return;
+                    }
+
+                    document.getElementById('admin-count-badge').innerText = `${data.length} Siswa Terdaftar (Cloud)`;
+                    data.forEach(d => {
+                        let statusBadge = d.score === "-" || d.score === null ? '<span class="text-amber-400">Belum Ujian</span>' : (parseFloat(d.score) >= 75 ? '<span class="text-emerald-400 font-bold">Tuntas KKM</span>' : '<span class="text-red-400 font-bold">Remedial</span>');
+                        tbody.innerHTML += `
+                            <tr class="hover:bg-slate-750 transition">
+                                <td class="p-4 text-xs text-slate-400">${d.timestamp || '-'}</td>
+                                <td class="p-4 font-medium text-white">${d.nama}</td>
+                                <td class="p-4">${d.kelas}</td>
+                                <td class="p-4 uppercase text-xs text-emerald-300 font-bold">${d.activeTab}</td>
+                                <td class="p-4 font-bold">${d.score}</td>
+                                <td class="p-4">${statusBadge}</td>
+                                <td class="p-4 text-center">
+                                    <button onclick="openLivePreview('${d.nama}', '${d.kelas}', '${d.activeTab}', '${d.score}')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded-lg font-medium">
+                                        Preview
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    console.log("Fetch admin data error:", err);
+                    renderTableFromLocal();
+                });
+        };
+
+        function renderTableFromLocal() {
+            const records = JSON.parse(localStorage.getItem('mpi_records') || '{}');
+            const tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = '';
+            const keys = Object.keys(records);
+            if (keys.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Belum ada data siswa masuk. Harap pastikan SCRIPT_URL sudah terkonfigurasi.</td></tr>`;
+                document.getElementById('admin-count-badge').innerText = `0 Siswa`;
+                return;
+            }
             keys.forEach(k => {
                 const d = records[k];
                 let statusBadge = d.score === "-" || d.score === null ? '<span class="text-amber-400">Belum Ujian</span>' : (parseFloat(d.score) >= 75 ? '<span class="text-emerald-400 font-bold">Tuntas KKM</span>' : '<span class="text-red-400 font-bold">Remedial</span>');
-                
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-750 transition">
                         <td class="p-4 text-xs text-slate-400">${d.timestamp || '-'}</td>
@@ -492,16 +599,16 @@
                     </tr>
                 `;
             });
-            document.getElementById('admin-count-badge').innerText = `${keys.length} Siswa Terdaftar`;
-        };
+            document.getElementById('admin-count-badge').innerText = `${keys.length} Siswa Terdaftar (Lokal)`;
+        }
 
         window.openLivePreview = function(nama, kelas, activeTab, score) {
             document.getElementById('preview-title').innerText = `Live Preview: ${nama} (${kelas})`;
             document.getElementById('preview-body').innerHTML = `
-                <div class="bg-slate-50 p-4 rounded-xl space-y-2 border">
-                    <p><b>Posisi Belajar Saat Ini:</b> <span class="uppercase text-emerald-700 font-bold">${activeTab}</span></p>
-                    <p><b>Nilai Kuis Terakhir:</b> ${score}</p>
-                    <p class="text-xs text-slate-500 mt-2">Siswa sedang aktif mengakses halaman web pembelajaran.</p>
+                <div class="bg-slate-50 p-4 rounded-xl space-y-2 border text-slate-800">
+                    <p><b>Posisi Modul Belajar:</b> <span class="uppercase text-emerald-700 font-bold">${activeTab}</span></p>
+                    <p><b>Nilai Kuis Ujian:</b> ${score}</p>
+                    <p class="text-xs text-slate-500 mt-2">Data disinkronkan secara real-time dari aktivitas siswa di perangkat mereka.</p>
                 </div>
             `;
             document.getElementById('modal-live-preview').classList.remove('hidden');
