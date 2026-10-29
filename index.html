@@ -232,7 +232,7 @@
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
             <h3 class="font-bold text-slate-900 text-lg">Autentikasi Guru</h3>
             <form onsubmit="handleAdminLogin(event)" class="space-y-3">
-                <input type="password" id="input-admin-pass" required placeholder="Sandi: smknu123" class="w-full px-3 py-2 border rounded-lg text-sm text-slate-800">
+                <input type="password" id="input-admin-pass" required placeholder="Masukkan Sandi Admin" class="w-full px-3 py-2 border rounded-lg text-sm text-slate-800">
                 <button type="submit" class="w-full bg-slate-900 text-white py-2.5 rounded-lg text-sm font-semibold">Masuk Dashboard</button>
             </form>
             <button onclick="closeAdminLoginModal()" class="w-full text-xs text-slate-500 mt-2">Batal</button>
@@ -443,7 +443,7 @@
         
         window.handleAdminLogin = e => {
             e.preventDefault();
-            if (document.getElementById('input-admin-pass').value === 'password admin') {
+            if (document.getElementById('input-admin-pass').value === 'smknu123') {
                 closeAdminLoginModal();
                 currentUser = { role: 'admin' };
                 localStorage.setItem('mpi_user', JSON.stringify(currentUser));
