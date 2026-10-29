@@ -475,22 +475,17 @@
             }
         }
 
-        window.handleLogin = function(e) {
+                window.handleLogin = function(e) {
             e.preventDefault();
             const nama = document.getElementById('input-nama').value.trim();
             const kelas = document.getElementById('input-kelas').value;
 
-            const now = new Date();
-            const mins = now.getHours() * 60 + now.getMinutes();
-            if (kelas === 'X Tata Boga' && mins > 600) {
-                alert('Sesi X Tata Boga telah ditutup pada pukul 10.00 WIB!');
-                return;
-            }
-            if (kelas === 'X Farmasi' && (mins < 660 || mins > 840)) {
-                alert('Sesi X Farmasi Belum/Sudah Selesai!');
+            if (!kelas) {
+                alert('Silakan pilih kelas terlebih dahulu!');
                 return;
             }
 
+            // Batasan waktu dinonaktifkan sepenuhnya agar siswa bebas login kapan saja
             currentUser = { nama, kelas, role: 'student', activeTab: 'modul-1', score: '-' };
             localStorage.setItem('mpi_user', JSON.stringify(currentUser));
             syncData();
