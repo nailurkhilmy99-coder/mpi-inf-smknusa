@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI Informatika - SMK NU Sunan Ampel Poncokusumo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Konfigurasi Backend Google Apps Script (Opsional jika ingin rekap masuk Cloud Spreadsheet) -->
+    <!-- Jika dikosongkan, aplikasi otomatis menggunakan LocalStorage browser & Export Excel -->
+    <script>
+        const SCRIPT_URL = ""; // Kosongkan jika ingin mode mandiri / isi dengan URL Web App Apps Script Anda
+    </script>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2"></div>
+
+    <!-- App Wrapper -->
+    <div id="app" class="flex-1 flex flex-col">
+
+        <!-- ==================== VIEW 1: LOGIN SISWA ==================== -->
+        <div id="view-login" class="flex-1 flex items-center justify-center p-4 bg-gradient-to-br from-emerald-800 via-teal-900 to-slate-900">
+            <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-emerald-100">
+                <div class="bg-emerald-700 p-6 text-white text-center relative">
+                    <span class="bg-emerald-600 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">SMK NU Sunan Ampel Poncokusumo</span>
+                    <h1 class="text-2xl font-bold mt-3">Materi Pembelajaran Interaktif</h1>
+                    <p class="text-emerald-200 text-sm mt-1">Google Docs & Google Sheets</p>
+                    <div class="mt-3 text-xs bg-emerald-800/80 inline-block px-3 py-1.5 rounded text-emerald-100 space-y-1">
+                        <div>🕒 <b>X Tata Boga</b>: Aktif s.d. Pukul 10.00 WIB</div>
+                        <div>🕒 <b>X Farmasi</b>: Aktif Pukul 11.00 - 14.00 WIB</div>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <form onsubmit="handleLogin(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap Siswa</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i data-lucide="user" class="w-5 h-5"></i>
+                                </span>
+                                <input type="text" id="input-nama" required placeholder="Contoh: Siti Aminah" 
+                                    class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Kelas / Jurusan</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                                </span>
+                                <select id="input-kelas" required class="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm bg-white">
+                                    <option value="">-- Pilih Kelas --</option>
+                                    <option value="X Tata Boga">X Tata Boga</option>
+                                    <option value="X Farmasi">X Farmasi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded text-xs text-amber-800">
+                            <span class="font-bold">Aturan KKM (75):</span> Nilai di bawah 75 wajib mengulang dari Modul 1.
+                        </div>
+                        <button type="submit" id="btn-login" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-3 rounded-lg shadow transition flex items-center justify-center gap-2">
+                            <span>Mulai Pembelajaran Daring</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </form>
+                    <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+                        <button onclick="openAdminLoginModal()" class="text-xs text-slate-500 hover:text-emerald-700 font-medium inline-flex items-center gap-1">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i> Login Khusus Guru / Admin
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW 2: DASHBOARD SISWA ==================== -->
+        <div id="view-student" class="hidden flex-1 flex flex-col bg-slate-100">
+            <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+                <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div id="user-avatar-badge" class="w-10 h-10 rounded-xl bg-emerald-700 text-white flex items-center font-bold text-lg justify-center">TB</div>
+                        <div>
+                            <h2 class="font-bold text-slate-800 text-sm sm:text-base" id="display-nama-siswa">Nama Siswa</h2>
+                            <p class="text-xs text-slate-500" id="display-kelas-siswa">Kelas X</p>
+                        </div>
+                    </div>
+                    <button onclick="handleLogout()" class="text-slate-600 hover:text-red-600 p-2 rounded-lg text-sm font-medium flex items-center gap-1">
+                        <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+                    </button>
+                </div>
+            </header>
+
+            <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Sidebar Navigasi Modul -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-white rounded-xl shadow-sm p-4 border border-slate-200">
+                        <h3 class="font-semibold text-slate-800 text-sm mb-3 flex items-center gap-2">
+                            <i data-lucide="list-tree" class="w-4 h-4 text-emerald-700"></i> Modul Pembelajaran
+                        </h3>
+                        <div class="space-y-1.5">
+                            <button onclick="switchTab('modul-1')" id="btn-tab-modul-1" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span class="flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4"></i> <span id="label-modul-1">1. Google Docs</span></span>
+                                <span id="badge-modul-1" class="text-xs px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-800 font-bold">Aktif</span>
+                            </button>
+                            <button onclick="switchTab('modul-2')" id="btn-tab-modul-2" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                                <span class="flex items-center gap-2"><i data-lucide="table" class="w-4 h-4"></i> <span id="label-modul-2">2. Google Sheets</span></span>
+                                <span id="badge-modul-2" class="text-xs px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-bold">Materi</span>
+                            </button>
+                            <button onclick="switchTab('modul-3')" id="btn-tab-modul-3" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between text-slate-600 hover:bg-slate-50">
+                                <span class="flex items-center gap-2"><i data-lucide="help-circle" class="w-4 h-4"></i> 3. Evaluasi Kuis</span>
+                                <span id="badge-modul-3" class="text-xs px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-bold">Ujian</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Body -->
+                <div class="lg:col-span-3 space-y-6">
+                    <!-- Modul 1 -->
+                    <div id="content-modul-1" class="bg-white rounded-xl shadow-sm p-6 sm:p-8 border border-slate-200 space-y-6">
+                        <div class="border-b border-slate-100 pb-4">
+                            <span class="text-xs font-bold text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded">Modul 1 dari 3</span>
+                            <h2 class="text-xl font-bold text-slate-900 mt-2" id="m1-title">Judul Modul Docs</h2>
+                            <p class="text-slate-500 text-sm mt-1" id="m1-subtitle">Subjudul</p>
+                        </div>
+                        <div class="prose text-sm space-y-4">
+                            <p class="text-slate-700" id="m1-context-desc">Deskripsi konteks.</p>
+                            <div class="bg-slate-900 text-slate-100 p-4 rounded-xl">
+                                <p class="text-xs text-slate-300" id="m1-task-desc">Tugas praktik...</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t flex justify-end">
+                            <button onclick="completeModul('modul-1')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2.5 rounded-lg text-sm flex items-center gap-2">
+                                <span>Tandai Selesai & Lanjut Modul 2</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modul 2 -->
+                    <div id="content-modul-2" class="hidden bg-white rounded-xl shadow-sm p-6 sm:p-8 border border-slate-200 space-y-6">
+                        <div class="border-b border-slate-100 pb-4">
+                            <span class="text-xs font-bold text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded">Modul 2 dari 3</span>
+                            <h2 class="text-xl font-bold text-slate-900 mt-2" id="m2-title">Judul Modul Sheets</h2>
+                            <p class="text-slate-500 text-sm mt-1">Simulasi lembar kerja otomatis.</p>
+                        </div>
+                        <div id="simulation-container" class="overflow-x-auto border rounded-lg p-4 bg-slate-50">
+                            <p class="text-sm text-slate-600 mb-3">Gunakan rumus `=SUM()` untuk menghitung total anggaran:</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center bg-white p-2.5 rounded border text-sm">
+                                    <span id="label-item-1">Bahan Baku Utama (kg)</span>
+                                    <input type="number" id="val-1" value="50000" oninput="calcSimulation()" class="border px-2 py-1 rounded w-32 text-right">
+                                </div>
+                                <div class="flex justify-between items-center bg-white p-2.5 rounded border text-sm">
+                                    <span id="label-item-2">Bahan Pendukung</span>
+                                    <input type="number" id="val-2" value="25000" oninput="calcSimulation()" class="border px-2 py-1 rounded w-32 text-right">
+                                </div>
+                                <div class="flex justify-between items-center bg-emerald-50 p-3 rounded border border-emerald-200 text-sm font-bold text-emerald-900">
+                                    <span>Total Pengeluaran (SUM):</span>
+                                    <span id="sim-total">Rp 75.000</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t flex justify-between">
+                            <button onclick="switchTab('modul-1')" class="border px-4 py-2.5 rounded-lg text-sm">Kembali</button>
+                            <button onclick="completeModul('modul-2')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-lg text-sm">Tandai Selesai & Lanjut Kuis</button>
+                        </div>
+                    </div>
+
+                    <!-- Modul 3: Kuis -->
+                    <div id="content-modul-3" class="hidden bg-white rounded-xl shadow-sm p-6 sm:p-8 border border-slate-200 space-y-6">
+                        <div class="border-b pb-4">
+                            <span class="text-xs font-bold text-emerald-700 uppercase bg-emerald-50 px-2.5 py-1 rounded">Modul 3 dari 3</span>
+                            <h2 class="text-xl font-bold text-slate-900 mt-2">Evaluasi Kuis (KKM: 75)</h2>
+                        </div>
+                        <div id="quiz-container" class="space-y-6"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ==================== VIEW 3: ADMIN DASHBOARD ==================== -->
+        <div id="view-admin" class="hidden flex-1 flex flex-col bg-slate-900 text-slate-100">
+            <header class="bg-slate-800 border-b border-slate-700 h-16 flex items-center justify-between px-6">
+                <div class="flex items-center gap-3">
+                    <h2 class="font-bold text-white text-base">Dashboard Guru - Pemantauan Live Siswa</h2>
+                    <span class="bg-emerald-600 text-white text-xs px-2.5 py-1 rounded-full">Active Session</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="loadAdminData()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded-lg flex items-center gap-1 font-medium">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Muat Ulang
+                    </button>
+                    <button onclick="exportToExcel()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-3 py-2 rounded-lg flex items-center gap-1 font-medium">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Ekspor ke Google Sheets (.xls)
+                    </button>
+                    <button onclick="exitAdmin()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-2 rounded-lg">Keluar</button>
+                </div>
+            </header>
+            <main class="max-w-7xl mx-auto px-4 py-8 w-full space-y-6">
+                <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-xl">
+                    <div class="p-4 border-b border-slate-700 font-bold text-sm flex justify-between items-center">
+                        <span>Rekapitulasi Siswa SMK NU Sunan Ampel Poncokusumo</span>
+                        <span id="admin-count-badge" class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">0 Siswa</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-300">
+                            <thead class="bg-slate-900 text-slate-400 uppercase text-xs">
+                                <tr>
+                                    <th class="p-4">Waktu</th>
+                                    <th class="p-4">Nama Siswa</th>
+                                    <th class="p-4">Kelas</th>
+                                    <th class="p-4">Modul Aktif</th>
+                                    <th class="p-4">Nilai Kuis</th>
+                                    <th class="p-4">Status KKM</th>
+                                    <th class="p-4 text-center">Live Preview</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-table-body" class="divide-y divide-slate-700"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Admin Login -->
+    <div id="modal-admin-login" class="fixed inset-0 z-50 bg-black/70 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
+            <h3 class="font-bold text-slate-900 text-lg">Autentikasi Guru</h3>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+                <input type="password" id="input-admin-pass" required placeholder="Sandi: smknu123" class="w-full px-3 py-2 border rounded-lg text-sm text-slate-800">
+                <button type="submit" class="w-full bg-slate-900 text-white py-2.5 rounded-lg text-sm font-semibold">Masuk Dashboard</button>
+            </form>
+            <button onclick="closeAdminLoginModal()" class="w-full text-xs text-slate-500 mt-2">Batal</button>
+        </div>
+    </div>
+
+    <!-- Modal Live Preview -->
+    <div id="modal-live-preview" class="fixed inset-0 z-50 bg-black/70 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl text-slate-800">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg" id="preview-title">Live Preview Siswa</h3>
+                <button onclick="closeLivePreview()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+            </div>
+            <div id="preview-body" class="space-y-3 text-sm"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = JSON.parse(localStorage.getItem('mpi_user')) || null;
+        let adminInterval = null;
+
+        const contentConfig = {
+            "X Tata Boga": {
+                avatar: "TB",
+                m1Title: "Penyusunan Resep Standar dengan Google Docs",
+                m1Subtitle: "Format penulisan resep baku kuliner digital.",
+                m1Context: "Dokumentasi resep presisi menjaga konsistensi rasa dan standar operasional dapur katering.",
+                m1Task: "Buat dokumen Google Docs baru yang berisi resep standar menu hidangan nusantara lengkap dengan porsi.",
+                quizQuestions: [
+                    { id: "q1", q: "1. Fitur di Google Docs untuk merevisi resep tanpa menghapus teks asli adalah?", opts: [{val:"A", text:"A. Page Setup"}, {val:"B", text:"B. Suggesting Mode"}, {val:"C", text:"C. Word Count"}], ans: "B" },
+                    { id: "q2", q: "2. Rumus Google Sheets yang digunakan untuk menghitung total keseluruhan harga bahan baku adalah?", opts: [{val:"A", text:"A. =AVERAGE()"}, {val:"B", text:"B. =COUNT()"}, {val:"C", text:"C. =SUM()"}], ans: "C" }
+                ]
+            },
+            "X Farmasi": {
+                avatar: "FR",
+                m1Title: "Penyusunan SOP Resep Racikan dengan Google Docs",
+                m1Subtitle: "Format penulisan resep apotek dan sediaan obat.",
+                m1Context: "Dokumentasi resep racikan di apotek harus bebas dari kesalahan penulisan dosis.",
+                m1Task: "Buat Google Docs yang merinci Standar Operasional Prosedur (SOP) peracikan kapsul obat.",
+                quizQuestions: [
+                    { id: "q1", q: "1. Keunggulan utama kolaborasi Google Docs dalam tim farmasi adalah?", opts: [{val:"A", text:"A. Bermain game online bersama"}, {val:"B", text:"B. Menyusun SOP resep racikan & audit bersama secara real-time"}, {val:"C", text:"C. Mencetak label kemasan obat"}], ans: "B" },
+                    { id: "q2", q: "2. Rumus Google Sheets untuk mencari rata-rata harga obat adalah?", opts: [{val:"A", text:"A. =SUM()"}, {val:"B", text:"B. =AVERAGE()"}, {val:"C", text:"C. =MAX()"}], ans: "B" }
+                ]
+            }
+        };
+
+        window.onload = function() {
+            lucide.createIcons();
+            if (currentUser) {
+                if (currentUser.role === 'admin') {
+                    showView('view-admin');
+                    loadAdminData();
+                    adminInterval = setInterval(loadAdminData, 3000);
+                } else {
+                    showView('view-student');
+                    initStudent();
+                }
+            }
+        };
+
+        function showView(id) {
+            ['view-login', 'view-student', 'view-admin'].forEach(v => document.getElementById(v).classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function showToast(msg) {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = "bg-slate-900 text-white px-4 py-2 rounded-lg text-sm shadow-xl";
+            t.innerText = msg;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        function syncData(extra = {}) {
+            if (!currentUser || currentUser.role === 'admin') return;
+            let records = JSON.parse(localStorage.getItem('mpi_records') || '{}');
+            const key = currentUser.nama + "_" + currentUser.kelas;
+            records[key] = {
+                timestamp: new Date().toLocaleTimeString(),
+                nama: currentUser.nama,
+                kelas: currentUser.kelas,
+                activeTab: currentUser.activeTab || 'modul-1',
+                score: currentUser.score !== undefined ? currentUser.score : '-',
+                ...extra
+            };
+            localStorage.setItem('mpi_records', JSON.stringify(records));
+
+            // Jika SCRIPT_URL Google Apps Script diisi, kirim juga secara cloud
+            if (SCRIPT_URL && SCRIPT_URL.trim() !== "") {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(records[key])
+                }).catch(e => console.log(e));
+            }
+        }
+
+        window.handleLogin = function(e) {
+            e.preventDefault();
+            const nama = document.getElementById('input-nama').value.trim();
+            const kelas = document.getElementById('input-kelas').value;
+
+            // Validasi Jam
+            const now = new Date();
+            const mins = now.getHours() * 60 + now.getMinutes();
+            if (kelas === 'X Tata Boga' && mins > 600) {
+                alert('Sesi X Tata Boga telah ditutup pada pukul 10.00 WIB!');
+                return;
+            }
+            if (kelas === 'X Farmasi' && (mins < 660 || mins > 840)) {
+                alert('Sesi X Farmasi baru aktif pada pukul 11.00 s.d. 14.00 WIB!');
+                return;
+            }
+
+            currentUser = { nama, kelas, role: 'student', activeTab: 'modul-1', score: '-' };
+            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
+            syncData();
+
+            showView('view-student');
+            initStudent();
+            showToast('Berhasil masuk ke sesi pembelajaran!');
+        };
+
+        window.handleLogout = function() {
+            localStorage.removeItem('mpi_user');
+            currentUser = null;
+            if (adminInterval) clearInterval(adminInterval);
+            showView('view-login');
+        };
+
+        function initStudent() {
+            document.getElementById('display-nama-siswa').innerText = currentUser.nama;
+            document.getElementById('display-kelas-siswa').innerText = currentUser.kelas;
+            const cfg = contentConfig[currentUser.kelas];
+            document.getElementById('user-avatar-badge').innerText = cfg.avatar;
+            document.getElementById('m1-title').innerText = cfg.m1Title;
+            document.getElementById('m1-subtitle').innerText = cfg.m1Subtitle;
+            document.getElementById('m1-context-desc').innerText = cfg.m1Context;
+            document.getElementById('m1-task-desc').innerText = cfg.m1Task;
+
+            // Render Quiz
+            const qContainer = document.getElementById('quiz-container');
+            qContainer.innerHTML = '';
+            cfg.quizQuestions.forEach(qq => {
+                let opts = '';
+                qq.opts.forEach(o => opts += `<label class="block p-2.5 bg-slate-50 hover:bg-slate-100 rounded border cursor-pointer"><input type="radio" name="${qq.id}" value="${o.val}" class="mr-2"> ${o.text}</label>`);
+                qContainer.innerHTML += `<div class="space-y-2"><p class="font-medium text-sm text-slate-800">${qq.q}</p>${opts}</div>`;
+            });
+            qContainer.innerHTML += `<button onclick="submitQuiz()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3 rounded-lg font-semibold shadow transition mt-4">Kirim Jawaban Kuis</button>`;
+        }
+
+        window.switchTab = function(tab) {
+            ['modul-1', 'modul-2', 'modul-3'].forEach(m => document.getElementById(`content-${m}`).classList.add('hidden'));
+            document.getElementById(`content-${tab}`).classList.remove('hidden');
+            
+            ['modul-1', 'modul-2', 'modul-3'].forEach(m => {
+                const btn = document.getElementById(`btn-tab-${m}`);
+                if (m === tab) {
+                    btn.className = "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between bg-emerald-50 text-emerald-700 border border-emerald-200";
+                } else {
+                    btn.className = "w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between text-slate-600 hover:bg-slate-50";
+                }
+            });
+
+            currentUser.activeTab = tab;
+            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
+            syncData();
+        };
+
+        window.completeModul = function(modul) {
+            syncData();
+            showToast('Progres berhasil disimpan!');
+            if (modul === 'modul-1') switchTab('modul-2');
+            else if (modul === 'modul-2') switchTab('modul-3');
+        };
+
+        window.calcSimulation = function() {
+            const v1 = parseFloat(document.getElementById('val-1').value) || 0;
+            const v2 = parseFloat(document.getElementById('val-2').value) || 0;
+            document.getElementById('sim-total').innerText = "Rp " + (v1 + v2).toLocaleString('id-ID');
+        };
+
+        window.submitQuiz = function() {
+            const cfg = contentConfig[currentUser.kelas];
+            let score = 0;
+            cfg.quizQuestions.forEach(qq => {
+                const sel = document.querySelector(`input[name="${qq.id}"]:checked`);
+                if (sel && sel.value === qq.ans) score += 50;
+            });
+            
+            currentUser.score = score;
+            localStorage.setItem('mpi_user', JSON.stringify(currentUser));
+            syncData();
+
+            if (score >= 75) {
+                alert(`Selamat! Nilai Anda: ${score}. Anda TUNTAS KKM!`);
+            } else {
+                alert(`Nilai Anda: ${score} (< 75). Berdasarkan aturan KKM, Anda wajib mengulang dari Modul 1.`);
+                switchTab('modul-1');
+            }
+        };
+
+        window.openAdminLoginModal = () => document.getElementById('modal-admin-login').classList.remove('hidden');
+        window.closeAdminLoginModal = () => document.getElementById('modal-admin-login').classList.add('hidden');
+        
+        window.handleAdminLogin = e => {
+            e.preventDefault();
+            if (document.getElementById('input-admin-pass').value === 'smknu123') {
+                closeAdminLoginModal();
+                currentUser = { role: 'admin' };
+                localStorage.setItem('mpi_user', JSON.stringify(currentUser));
+                showView('view-admin');
+                loadAdminData();
+                adminInterval = setInterval(loadAdminData, 3000);
+            } else {
+                alert('Sandi admin salah!');
+            }
+        };
+
+        window.exitAdmin = () => {
+            if (adminInterval) clearInterval(adminInterval);
+            handleLogout();
+        };
+
+        window.loadAdminData = function() {
+            const records = JSON.parse(localStorage.getItem('mpi_records') || '{}');
+            const tbody = document.getElementById('admin-table-body');
+            tbody.innerHTML = '';
+            
+            const keys = Object.keys(records);
+            if (keys.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Belum ada data siswa masuk.</td></tr>`;
+                document.getElementById('admin-count-badge').innerText = `0 Siswa`;
+                return;
+            }
+
+            keys.forEach(k => {
+                const d = records[k];
+                let statusBadge = d.score === "-" || d.score === null ? '<span class="text-amber-400">Belum Ujian</span>' : (parseFloat(d.score) >= 75 ? '<span class="text-emerald-400 font-bold">Tuntas KKM</span>' : '<span class="text-red-400 font-bold">Remedial</span>');
+                
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-750 transition">
+                        <td class="p-4 text-xs text-slate-400">${d.timestamp || '-'}</td>
+                        <td class="p-4 font-medium text-white">${d.nama}</td>
+                        <td class="p-4">${d.kelas}</td>
+                        <td class="p-4 uppercase text-xs text-emerald-300 font-bold">${d.activeTab}</td>
+                        <td class="p-4 font-bold">${d.score}</td>
+                        <td class="p-4">${statusBadge}</td>
+                        <td class="p-4 text-center">
+                            <button onclick="openLivePreview('${d.nama}', '${d.kelas}', '${d.activeTab}', '${d.score}')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded-lg font-medium">
+                                Preview
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('admin-count-badge').innerText = `${keys.length} Siswa Terdaftar`;
+        };
+
+        window.openLivePreview = function(nama, kelas, activeTab, score) {
+            document.getElementById('preview-title').innerText = `Live Preview: ${nama} (${kelas})`;
+            document.getElementById('preview-body').innerHTML = `
+                <div class="bg-slate-50 p-4 rounded-xl space-y-2 border">
+                    <p><b>Posisi Belajar Saat Ini:</b> <span class="uppercase text-emerald-700 font-bold">${activeTab}</span></p>
+                    <p><b>Nilai Kuis Terakhir:</b> ${score}</p>
+                    <p class="text-xs text-slate-500 mt-2">Siswa sedang aktif mengakses halaman web pembelajaran.</p>
+                </div>
+            `;
+            document.getElementById('modal-live-preview').classList.remove('hidden');
+        };
+
+        window.closeLivePreview = () => document.getElementById('modal-live-preview').classList.add('hidden');
+
+        window.exportToExcel = function() {
+            let tableHTML = document.querySelector('table').outerHTML;
+            const blob = new Blob(['\ufeff' + tableHTML], { type: 'application/vnd.ms-excel' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Rekap_Nilai_MPI_${new Date().toISOString().slice(0,10)}.xls`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+    </script>
+</body>
+</html>
