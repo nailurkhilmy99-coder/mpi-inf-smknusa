@@ -443,7 +443,7 @@
         
         window.handleAdminLogin = e => {
             e.preventDefault();
-            if (document.getElementById('input-admin-pass').value === 'smknu123') {
+            if (document.getElementById('input-admin-pass').value === 'password admin') {
                 closeAdminLoginModal();
                 currentUser = { role: 'admin' };
                 localStorage.setItem('mpi_user', JSON.stringify(currentUser));
